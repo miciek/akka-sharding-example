@@ -1,0 +1,13 @@
+bin
+.idea
+*.iml
+target
+.classpath
+.project
+.settings
+.DS_Store
+out*g
+log
+.cache
+journal
+snapshots
