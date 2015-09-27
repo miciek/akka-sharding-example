@@ -9,8 +9,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <scala.version>2.11.5</scala.version>
-        <akka.version>2.3.9</akka.version>
+        <scala.version>2.11.7</scala.version>
+        <akka.version>2.4.0-RC3</akka.version>
         <spray.version>1.3.2</spray.version>
         <spray.json.version>1.3.1</spray.json.version>
         <typesafe.config.version>1.2.1</typesafe.config.version>
@@ -42,7 +42,7 @@
         </dependency>
         <dependency>
             <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-persistence-experimental_2.11</artifactId>
+            <artifactId>akka-persistence_2.11</artifactId>
             <version>${akka.version}</version>
         </dependency>
         <dependency>
@@ -52,13 +52,13 @@
         </dependency>
         <dependency>
             <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-contrib_2.11</artifactId>
+            <artifactId>akka-cluster-sharding_2.11</artifactId>
             <version>${akka.version}</version>
         </dependency>
         <dependency>
             <groupId>com.typesafe.akka</groupId>
             <artifactId>akka-remote_2.11</artifactId>
-            <version>2.3.8</version>
+            <version>${akka.version}</version>
         </dependency>
         <dependency>
             <groupId>com.typesafe.akka</groupId>

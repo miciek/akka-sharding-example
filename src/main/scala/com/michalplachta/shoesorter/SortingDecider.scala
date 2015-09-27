@@ -1,8 +1,8 @@
 package com.michalplachta.shoesorter
 
-import akka.actor.{Props, ActorLogging, Actor}
+import akka.actor.{Actor, ActorLogging, Props}
 import akka.cluster.Cluster
-import akka.contrib.pattern.ShardRegion
+import akka.cluster.sharding.ShardRegion
 import spray.json.DefaultJsonProtocol._
 
 import scala.util.Try
@@ -11,8 +11,11 @@ import scala.util.Try
  * @author michal.plachta
  */
 case class Junction(id: Int)
+
 case class Container(id: Int)
+
 case class WhereShouldIGo(junction: Junction, container: Container)
+
 case class Go(targetConveyor: String)
 
 object Go {
@@ -22,11 +25,11 @@ object Go {
 object SortingDecider {
   val props = Props[SortingDecider]
 
-  val idExtractor: ShardRegion.IdExtractor = {
+  val extractEntityId: ShardRegion.ExtractEntityId = {
     case m: WhereShouldIGo => (m.junction.id.toString, m)
   }
 
-  val shardResolver: ShardRegion.ShardResolver = msg => msg match {
+  val extractShardId: ShardRegion.ExtractShardId = {
     case WhereShouldIGo(junction, _) => (junction.id % 2).toString
   }
 
@@ -34,7 +37,7 @@ object SortingDecider {
 }
 
 class SortingDecider extends Actor with ActorLogging {
-  var myJunction : Junction = _
+  var myJunction: Junction = _
 
   def receive: Receive = {
     case WhereShouldIGo(junction, container) => {
@@ -49,7 +52,7 @@ class SortingDecider extends Actor with ActorLogging {
     }
   }
 
-  def makeDecision(container: Container) : String = {
+  def makeDecision(container: Container): String = {
     Thread.sleep(1)
     val seed = util.Random.nextInt(10000)
     return s"CVR_${myJunction.id}_${seed % 2 + 1}"
