@@ -1,7 +1,7 @@
 package com.michalplachta.shoesorter.api
 
-import akka.actor.{ActorSystem, Props}
-import com.michalplachta.shoesorter.{DecidersGuardian, SortingDecider}
+import akka.actor.ActorSystem
+import com.michalplachta.shoesorter.DecidersGuardian
 import com.typesafe.config.ConfigFactory
 
 /**
@@ -14,9 +14,5 @@ object SingleNodeApp extends App {
   sys.addShutdownHook(system.shutdown())
 
   val decidersGuardian = system.actorOf(DecidersGuardian.props)
-  system.actorOf(
-    RestInterface.props(
-      config getInt "application.exposed-port",
-      decidersGuardian),
-    name = "restInterfaceService")
+  new RestInterface(config getInt "application.exposed-port", decidersGuardian)
 }

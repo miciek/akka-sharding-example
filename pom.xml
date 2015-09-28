@@ -11,15 +11,12 @@
     <properties>
         <scala.version>2.11.7</scala.version>
         <akka.version>2.4.0-RC3</akka.version>
-        <spray.version>1.3.2</spray.version>
-        <spray.json.version>1.3.1</spray.json.version>
-        <typesafe.config.version>1.2.1</typesafe.config.version>
+        <akka-streams-http.version>1.0</akka-streams-http.version>
         <akka.persistence-in-memory.version>0.1.1</akka.persistence-in-memory.version>
+        <typesafe.config.version>1.2.1</typesafe.config.version>
         <logback.version>1.1.2</logback.version>
-        <spray-swagger.version>0.5.0</spray-swagger.version>
         <junit.version>4.11</junit.version>
         <scalatest.version>2.2.3</scalatest.version>
-        <wiremock.version>1.53</wiremock.version>
         <maven-scala-plugin.version>2.15.2</maven-scala-plugin.version>
         <maven-shade-plugin.version>2.3</maven-shade-plugin.version>
         <scalatest-maven-plugin.version>1.0</scalatest-maven-plugin.version>
@@ -66,9 +63,14 @@
             <version>${akka.version}</version>
         </dependency>
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-http-experimental_2.11</artifactId>
+            <version>${akka-streams-http.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-http-spray-json-experimental_2.11</artifactId>
+            <version>${akka-streams-http.version}</version>
         </dependency>
         <dependency>
             <groupId>com.typesafe</groupId>
@@ -76,39 +78,9 @@
             <version>${typesafe.config.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.spray</groupId>
-            <artifactId>spray-can_2.11</artifactId>
-            <version>${spray.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.spray</groupId>
-            <artifactId>spray-routing_2.11</artifactId>
-            <version>${spray.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.spray</groupId>
-            <artifactId>spray-httpx_2.11</artifactId>
-            <version>${spray.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.spray</groupId>
-            <artifactId>spray-http_2.11</artifactId>
-            <version>${spray.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.spray</groupId>
-            <artifactId>spray-client_2.11</artifactId>
-            <version>${spray.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.spray</groupId>
-            <artifactId>spray-json_2.11</artifactId>
-            <version>${spray.json.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.gettyimages</groupId>
-            <artifactId>spray-swagger_2.11</artifactId>
-            <version>${spray-swagger.version}</version>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -126,12 +98,6 @@
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest_2.11</artifactId>
             <version>${scalatest.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.spray</groupId>
-            <artifactId>spray-testkit_2.11</artifactId>
-            <version>${spray.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -222,20 +188,6 @@
                         <phase>test</phase>
                         <goals>
                             <goal>test</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.zeroturnaround</groupId>
-                <artifactId>jrebel-maven-plugin</artifactId>
-                <version>1.1.5</version>
-                <executions>
-                    <execution>
-                        <id>generate-rebel-xml</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>generate</goal>
                         </goals>
                     </execution>
                 </executions>

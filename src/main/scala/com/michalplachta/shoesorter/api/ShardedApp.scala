@@ -28,11 +28,7 @@ object ShardedApp extends App {
 
     if (port == 2551) {
       val decider = ClusterSharding(system).shardRegion(SortingDecider.shardName)
-      system.actorOf(
-        RestInterface.props(
-          defaultConfig getInt "application.exposed-port",
-          decider),
-        name = "restInterfaceService")
+      new RestInterface(defaultConfig getInt "application.exposed-port", decider)
     }
   }
 }
