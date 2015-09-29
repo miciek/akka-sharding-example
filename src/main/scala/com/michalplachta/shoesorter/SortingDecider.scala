@@ -53,7 +53,7 @@ class SortingDecider extends Actor with ActorLogging {
   }
 
   def makeDecision(container: Container): String = {
-    Thread.sleep(1)
+    Thread.sleep(100)
     val seed = util.Random.nextInt(10000)
     return s"CVR_${myJunction.id}_${seed % 2 + 1}"
   }
