@@ -10,7 +10,7 @@
 
     <properties>
         <scala.version>2.11.7</scala.version>
-        <akka.version>2.4.0-RC3</akka.version>
+        <akka.version>2.4.0</akka.version>
         <akka-streams-http.version>1.0</akka-streams-http.version>
         <akka.persistence-in-memory.version>0.1.1</akka.persistence-in-memory.version>
         <typesafe.config.version>1.2.1</typesafe.config.version>
