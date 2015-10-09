@@ -17,7 +17,7 @@ object ShardedApp extends App {
       withFallback(defaultConfig)
 
     // Create an Akka system
-    val system = ActorSystem(config getString "clustering.cluster.name", config)
+    implicit val system = ActorSystem(config getString "clustering.cluster.name", config)
 
     ClusterSharding(system).start(
       typeName = SortingDecider.shardName,
@@ -28,7 +28,7 @@ object ShardedApp extends App {
 
     if (port == 2551) {
       val decider = ClusterSharding(system).shardRegion(SortingDecider.shardName)
-      new RestInterface(defaultConfig getInt "application.exposed-port", decider)
+      RestInterface.bind(decider, defaultConfig getInt "application.exposed-port")
     }
   }
 }

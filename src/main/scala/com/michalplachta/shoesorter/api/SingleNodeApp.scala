@@ -4,15 +4,12 @@ import akka.actor.ActorSystem
 import com.michalplachta.shoesorter.DecidersGuardian
 import com.typesafe.config.ConfigFactory
 
-/**
- * @author michal.plachta
- */
 object SingleNodeApp extends App {
   val config = ConfigFactory.load()
 
-  val system = ActorSystem(config getString "application.name")
-  sys.addShutdownHook(system.shutdown())
+  implicit val system = ActorSystem(config getString "application.name")
+  sys.addShutdownHook(system.terminate())
 
   val decidersGuardian = system.actorOf(DecidersGuardian.props)
-  new RestInterface(config getInt "application.exposed-port", decidersGuardian)
+  RestInterface.bind(decidersGuardian, config getInt "application.exposed-port")
 }

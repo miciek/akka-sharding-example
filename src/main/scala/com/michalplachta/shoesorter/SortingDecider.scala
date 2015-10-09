@@ -7,9 +7,6 @@ import spray.json.DefaultJsonProtocol._
 
 import scala.util.Try
 
-/**
- * @author michal.plachta
- */
 case class Junction(id: Int)
 
 case class Container(id: Int)
@@ -55,6 +52,6 @@ class SortingDecider extends Actor with ActorLogging {
   def makeDecision(container: Container): String = {
     Thread.sleep(100)
     val seed = util.Random.nextInt(10000)
-    return s"CVR_${myJunction.id}_${seed % 2 + 1}"
+    s"CVR_${myJunction.id}_${seed % 2 + 1}"
   }
 }

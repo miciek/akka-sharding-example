@@ -13,27 +13,24 @@ import com.typesafe.config.ConfigFactory
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 
-/**
- * @author michal.plachta
- */
-class RestInterface(exposedPort: Int, decider: ActorRef) {
-  val config = ConfigFactory.load()
-  implicit val system = ActorSystem("rest")
-  implicit val timeout = Timeout(5 seconds)
-  implicit val materializer = ActorMaterializer()
+object RestInterface {
+  def bind(decider: ActorRef, exposedPort: Int)(implicit system: ActorSystem) {
+    implicit val timeout = Timeout(5 seconds)
+    implicit val materializer = ActorMaterializer()
 
-  val route =
-    get {
-      path("decisions" / IntNumber / IntNumber) { (junctionId, containerId) =>
-        complete {
-          decider
-            .ask(WhereShouldIGo(
-            Junction(junctionId),
-            Container(containerId)))
-            .mapTo[Go]
+    val route =
+      get {
+        path("decisions" / IntNumber / IntNumber) { (junctionId, containerId) =>
+          complete {
+            decider
+              .ask(WhereShouldIGo(
+              Junction(junctionId),
+              Container(containerId)))
+              .mapTo[Go]
+          }
         }
       }
-    }
 
-  Http().bindAndHandle(route, "0.0.0.0", exposedPort)
+    Http().bindAndHandle(route, "0.0.0.0", exposedPort)
+  }
 }
