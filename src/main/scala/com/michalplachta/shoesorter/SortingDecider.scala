@@ -3,21 +3,9 @@ package com.michalplachta.shoesorter
 import akka.actor.{Actor, ActorLogging, Props}
 import akka.cluster.Cluster
 import akka.cluster.sharding.ShardRegion
-import spray.json.DefaultJsonProtocol._
+import com.michalplachta.shoesorter.Messages.{Go, Junction, WhereShouldIGo, Container}
 
 import scala.util.Try
-
-case class Junction(id: Int)
-
-case class Container(id: Int)
-
-case class WhereShouldIGo(junction: Junction, container: Container)
-
-case class Go(targetConveyor: String)
-
-object Go {
-  implicit val goJson = jsonFormat1(Go.apply)
-}
 
 object SortingDecider {
   val props = Props[SortingDecider]
@@ -44,7 +32,7 @@ class SortingDecider extends Actor with ActorLogging {
       }.getOrElse("single-node")
 
       val targetConveyor = makeDecision(container)
-      log.info(s"[$from ${context.self.path}}] Container ${container.id} on junction ${junction.id} directed to ${targetConveyor}")
+      log.info(s"[$from ${context.self.path}}] Container ${container.id} on junction ${junction.id} directed to $targetConveyor")
       sender ! Go(targetConveyor)
     }
   }
