@@ -3,7 +3,8 @@ package com.michalplachta.shoesorter
 import akka.actor.{Actor, ActorLogging, Props}
 import akka.cluster.Cluster
 import akka.cluster.sharding.ShardRegion
-import com.michalplachta.shoesorter.Messages.{Go, Junction, WhereShouldIGo, Container}
+import com.michalplachta.shoesorter.Domain.{Container, Junction}
+import com.michalplachta.shoesorter.Messages.{Go, WhereShouldIGo}
 
 import scala.util.Try
 

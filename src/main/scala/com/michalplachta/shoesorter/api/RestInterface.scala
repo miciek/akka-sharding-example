@@ -8,7 +8,8 @@ import akka.http.scaladsl.server.Directives._
 import akka.pattern.ask
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
-import com.michalplachta.shoesorter.Messages.{Go, Container, Junction, WhereShouldIGo}
+import com.michalplachta.shoesorter.Domain.{Container, Junction}
+import com.michalplachta.shoesorter.Messages.{Go, WhereShouldIGo}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
