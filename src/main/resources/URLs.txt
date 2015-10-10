@@ -1,2 +1,5 @@
 http://localhost:8080/junctions/1/decisionForContainer/1
 http://localhost:8080/junctions/2/decisionForContainer/4
+http://localhost:8080/junctions/3/decisionForContainer/5
+http://localhost:8080/junctions/4/decisionForContainer/2
+http://localhost:8080/junctions/5/decisionForContainer/7

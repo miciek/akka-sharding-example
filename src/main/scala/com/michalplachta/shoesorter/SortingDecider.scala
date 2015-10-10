@@ -23,24 +23,15 @@ object SortingDecider {
 }
 
 class SortingDecider extends Actor with ActorLogging {
-  var myJunction: Junction = _
-
   def receive: Receive = {
     case WhereShouldIGo(junction, container) => {
-      myJunction = junction
       val from = Try {
         Cluster(context.system).selfAddress.hostPort
       }.getOrElse("single-node")
 
-      val targetConveyor = makeDecision(container)
+      val targetConveyor = Decisions.whereShouldContainerGo(junction)(container)
       log.info(s"[$from ${context.self.path}}] Container ${container.id} on junction ${junction.id} directed to $targetConveyor")
       sender ! Go(targetConveyor)
     }
-  }
-
-  def makeDecision(container: Container): String = {
-    Thread.sleep(100)
-    val seed = util.Random.nextInt(10000)
-    s"CVR_${myJunction.id}_${seed % 2 + 1}"
   }
 }
