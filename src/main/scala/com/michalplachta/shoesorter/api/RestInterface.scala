@@ -10,6 +10,7 @@ import akka.pattern.ask
 import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.Flow
 import akka.util.Timeout
+import com.michalplachta.shoesorter.Decisions
 import com.michalplachta.shoesorter.Domain.{Container, Junction}
 import com.michalplachta.shoesorter.Messages.{Go, WhereShouldIGo}
 
@@ -24,13 +25,10 @@ object RestInterface {
     val route =
       path("junctions" / IntNumber / "decisionForContainer" / IntNumber) { (junctionId, containerId) =>
         get {
-          complete {
-            decider
-              .ask(WhereShouldIGo(
-                    Junction(junctionId),
-                    Container(containerId)))
-              .mapTo[Go]
+          val decision = Future {
+            Go(Decisions.whereShouldContainerGo(Junction(junctionId))(Container(containerId)))
           }
+          complete(decision)
         }
       }
 
