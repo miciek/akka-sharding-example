@@ -8,7 +8,7 @@ http://www.slideshare.net/miciek/sane-sharding-with-akka-cluster
 You can test both applications on your local machine by using included `resources/URLs.txt` file and the following command:
 
 ```
-cat src/main/resources/URLs.txt | parallel 'ab -c 2 -n 100 {}'
+cat src/main/resources/URLs.txt | parallel 'ab -n 2000 -c 4 -k {}' | grep 'Requests per second'
 ```
 
 Please compare `Requests per second`.
