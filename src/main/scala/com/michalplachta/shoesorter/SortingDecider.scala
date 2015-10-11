@@ -1,13 +1,11 @@
 package com.michalplachta.shoesorter
 
-import akka.actor.{Actor, ActorLogging, Props}
-import akka.cluster.Cluster
+import akka.actor.{Actor, Props}
 import akka.cluster.sharding.ShardRegion
-import com.michalplachta.shoesorter.Domain.{Container, Junction}
 import com.michalplachta.shoesorter.Messages.{Go, WhereShouldIGo}
 
-import scala.util.Try
-
+// TODO: Rename to JunctionDecider
+// TODO: It should receive a function for the junction
 object SortingDecider {
   val props = Props[SortingDecider]
 
@@ -22,15 +20,10 @@ object SortingDecider {
   val shardName = "sortingDecider"
 }
 
-class SortingDecider extends Actor with ActorLogging {
+class SortingDecider extends Actor {
   def receive: Receive = {
     case WhereShouldIGo(junction, container) => {
-      val from = Try {
-        Cluster(context.system).selfAddress.hostPort
-      }.getOrElse("single-node")
-
       val targetConveyor = Decisions.whereShouldContainerGo(junction)(container)
-      log.info(s"[$from ${context.self.path}}] Container ${container.id} on junction ${junction.id} directed to $targetConveyor")
       sender ! Go(targetConveyor)
     }
   }

@@ -11,5 +11,5 @@ object SingleNodeApp extends App {
   sys.addShutdownHook(system.terminate())
 
   val decidersGuardian = system.actorOf(DecidersGuardian.props)
-  RestInterface.bind(decidersGuardian, config getInt "application.exposed-port")
+  system.actorOf(RestInterface.props(decidersGuardian, config getInt "application.exposed-port"))
 }
