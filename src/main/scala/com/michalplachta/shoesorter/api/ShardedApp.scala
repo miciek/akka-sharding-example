@@ -17,6 +17,6 @@ object ShardedApp extends App {
     extractShardId = SortingDecider.extractShardId
   )
 
-  val decider = ClusterSharding(system).shardRegion(SortingDecider.shardName)
-  system.actorOf(RestInterface.props(decider, config getInt "application.exposed-port"))
+  val decidersGuardian = ClusterSharding(system).shardRegion(SortingDecider.shardName)
+  system.actorOf(RestInterface.props(decidersGuardian, config getInt "application.exposed-port"))
 }
