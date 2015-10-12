@@ -5,30 +5,18 @@ import akka.cluster.sharding.{ClusterSharding, ClusterShardingSettings}
 import com.michalplachta.shoesorter.SortingDecider
 import com.typesafe.config.ConfigFactory
 
-/**
- * @author michal.plachta
- */
 object ShardedApp extends App {
-  val defaultConfig = ConfigFactory.load("sharded")
+  val config = ConfigFactory.load("sharded")
+  implicit val system = ActorSystem(config getString "clustering.cluster.name", config)
 
-  Seq(2551, 2552) foreach { port =>
-    // Override the configuration of the port
-    val config = ConfigFactory.parseString("akka.remote.netty.tcp.port=" + port).
-      withFallback(defaultConfig)
+  ClusterSharding(system).start(
+    typeName = SortingDecider.shardName,
+    entityProps = SortingDecider.props,
+    settings = ClusterShardingSettings(system),
+    extractEntityId = SortingDecider.extractEntityId,
+    extractShardId = SortingDecider.extractShardId
+  )
 
-    // Create an Akka system
-    implicit val system = ActorSystem(config getString "clustering.cluster.name", config)
-
-    ClusterSharding(system).start(
-      typeName = SortingDecider.shardName,
-      entityProps = SortingDecider.props,
-      settings = ClusterShardingSettings(system),
-      extractEntityId = SortingDecider.extractEntityId,
-      extractShardId = SortingDecider.extractShardId)
-
-    if (port == 2551) {
-      val decider = ClusterSharding(system).shardRegion(SortingDecider.shardName)
-      system.actorOf(RestInterface.props(decider, defaultConfig getInt "application.exposed-port"))
-    }
-  }
+  val decider = ClusterSharding(system).shardRegion(SortingDecider.shardName)
+  system.actorOf(RestInterface.props(decider, config getInt "application.exposed-port"))
 }

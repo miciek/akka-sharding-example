@@ -5,7 +5,6 @@ import akka.cluster.sharding.ShardRegion
 import com.michalplachta.shoesorter.Messages.{Go, WhereShouldIGo}
 
 // TODO: Rename to JunctionDecider
-// TODO: It should receive a function for the junction
 object SortingDecider {
   val props = Props[SortingDecider]
 
@@ -23,7 +22,7 @@ object SortingDecider {
 class SortingDecider extends Actor {
   def receive: Receive = {
     case WhereShouldIGo(junction, container) => {
-      val targetConveyor = Decisions.whereShouldContainerGo(junction)(container)
+      val targetConveyor = Decisions.whereShouldContainerGo(junction, container)
       sender ! Go(targetConveyor)
     }
   }

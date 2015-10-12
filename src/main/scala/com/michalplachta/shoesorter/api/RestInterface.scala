@@ -1,6 +1,6 @@
 package com.michalplachta.shoesorter.api
 
-import akka.actor.{Actor, ActorRef, Props}
+import akka.actor.{Actor, ActorLogging, ActorRef, Props}
 import akka.io.IO
 import akka.pattern.ask
 import akka.util.Timeout
@@ -17,7 +17,7 @@ object RestInterface {
   def props(decider: ActorRef, port: Int) = Props(new RestInterface(decider, port))
 }
 
-class RestInterface(decider: ActorRef, exposedPort: Int) extends Actor with HttpServiceBase {
+class RestInterface(decider: ActorRef, exposedPort: Int) extends Actor with ActorLogging with HttpServiceBase {
   implicit val system = context.system
   implicit val timeout = Timeout(5 seconds)
 
@@ -25,6 +25,7 @@ class RestInterface(decider: ActorRef, exposedPort: Int) extends Actor with Http
     path("junctions" / IntNumber / "decisionForContainer" / IntNumber) { (junctionId, containerId) =>
       get {
         complete {
+          log.info(s"Request for $junctionId")
           decider.ask(
             WhereShouldIGo(Junction(junctionId), Container(containerId))
           ).mapTo[Go]
