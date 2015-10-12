@@ -1,6 +1,6 @@
 package com.michalplachta.shoesorter.api
 
-import akka.actor.ActorSystem
+import akka.actor.{ActorSystem, Props}
 import com.michalplachta.shoesorter.DecidersGuardian
 import com.typesafe.config.ConfigFactory
 
@@ -10,6 +10,6 @@ object SingleNodeApp extends App {
   implicit val system = ActorSystem(config getString "application.name")
   sys.addShutdownHook(system.terminate())
 
-  val decidersGuardian = system.actorOf(DecidersGuardian.props)
+  val decidersGuardian = system.actorOf(Props[DecidersGuardian])
   system.actorOf(RestInterface.props(decidersGuardian, config getInt "application.exposed-port"))
 }

@@ -4,6 +4,9 @@ A simple implementation of akka sharding. Presentation can be found here:
 
 http://www.slideshare.net/miciek/sane-sharding-with-akka-cluster
 
+## Flow
+1. 
+
 ## Benchmarking
 You can test both applications on your local machine by using included `resources/URLs.txt` file and the following command:
 

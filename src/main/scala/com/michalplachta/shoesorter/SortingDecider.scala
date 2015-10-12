@@ -4,19 +4,20 @@ import akka.actor.{Actor, Props}
 import akka.cluster.sharding.ShardRegion
 import com.michalplachta.shoesorter.Messages.{Go, WhereShouldIGo}
 
-// TODO: Rename to JunctionDecider
 object SortingDecider {
-  val props = Props[SortingDecider]
+  def props = Props[SortingDecider]
+
+  def shardName = "sortingDecider"
 
   val extractEntityId: ShardRegion.ExtractEntityId = {
-    case m: WhereShouldIGo => (m.junction.id.toString, m)
+    case m: WhereShouldIGo =>
+      (m.junction.id.toString, m)
   }
 
   val extractShardId: ShardRegion.ExtractShardId = {
-    case WhereShouldIGo(junction, _) => (junction.id % 2).toString
+    case WhereShouldIGo(junction, _) =>
+      (junction.id % 2).toString
   }
-
-  val shardName = "sortingDecider"
 }
 
 class SortingDecider extends Actor {
