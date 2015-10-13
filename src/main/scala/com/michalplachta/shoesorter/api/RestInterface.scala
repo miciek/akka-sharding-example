@@ -14,3 +14,23 @@ import spray.routing._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 
+class RestInterface(exposedPort: Int) extends Actor with HttpServiceBase with ActorLogging {
+  val route: Route = {
+    path("junctions" / IntNumber / "decisionForContainer" / IntNumber) { (junctionId, containerId) =>
+      get {
+        complete {
+          log.info(s"Request for junction $junctionId and container $containerId")
+          val junction = Junction(junctionId)
+          val container = Container(containerId)
+          val decision = Decisions.whereShouldContainerGo(junction, container)
+          Go(decision)
+        }
+      }
+    }
+  }
+
+  def receive = runRoute(route)
+
+  implicit val system = context.system
+  IO(Http) ! Http.Bind(self, interface = "0.0.0.0", port = exposedPort)
+}
