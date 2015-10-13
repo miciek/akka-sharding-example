@@ -14,7 +14,7 @@ import spray.routing._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 
-class RestInterface(exposedPort: Int) extends Actor with HttpServiceBase with ActorLogging {
+class RestInterface(decider: ActorRef, exposedPort: Int) extends Actor with HttpServiceBase with ActorLogging {
   val route: Route = {
     path("junctions" / IntNumber / "decisionForContainer" / IntNumber) { (junctionId, containerId) =>
       get {
@@ -22,8 +22,7 @@ class RestInterface(exposedPort: Int) extends Actor with HttpServiceBase with Ac
           log.info(s"Request for junction $junctionId and container $containerId")
           val junction = Junction(junctionId)
           val container = Container(containerId)
-          val decision = Decisions.whereShouldContainerGo(junction, container)
-          Go(decision)
+          decider.ask(WhereShouldIGo(junction, container))(5 seconds).mapTo[Go]
         }
       }
     }
