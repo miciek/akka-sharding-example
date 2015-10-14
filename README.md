@@ -1,6 +1,6 @@
 # akka-sharding-example
 
-A simple implementation of akka sharding. 
+A simple implementation of akka sharding. This is a simulation of Conveyor Sorting Subsystem.
 
 ## Benchmarking
 You can test both applications on your local machine by using included `resources/URLs.txt` file and the following command:
