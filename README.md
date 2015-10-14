@@ -2,6 +2,10 @@
 
 A simple implementation of akka sharding. This is a simulation of Conveyor Sorting Subsystem.
 
+![](http://i.imgur.com/mctb4HC.gif)
+
+This repository serves as a support for my live-coding talk. You can look at slides on [slideshare](http://www.slideshare.net/miciek/sane-sharding-with-akka-cluster-53948027).
+
 ## Benchmarking
 You can test both applications on your local machine by using included `resources/URLs.txt` file and the following command:
 
