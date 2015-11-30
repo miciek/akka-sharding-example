@@ -9,14 +9,14 @@ object SortingDecider {
 
   def shardName = "sortingDecider"
 
-  val extractEntityId: ShardRegion.ExtractEntityId = {
-    case m: WhereShouldIGo =>
-      (m.junction.id.toString, m)
-  }
-
   val extractShardId: ShardRegion.ExtractShardId = {
     case WhereShouldIGo(junction, _) =>
       (junction.id % 2).toString
+  }
+
+  val extractEntityId: ShardRegion.ExtractEntityId = {
+    case m: WhereShouldIGo =>
+      (m.junction.id.toString, m)
   }
 }
 

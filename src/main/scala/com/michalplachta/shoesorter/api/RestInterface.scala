@@ -1,11 +1,9 @@
 package com.michalplachta.shoesorter.api
 
-import akka.actor.{Actor, ActorLogging, ActorRef, Props}
+import akka.actor.{Actor, ActorLogging, ActorRef}
 import akka.io.IO
 import akka.pattern.ask
-import akka.util.Timeout
-import com.michalplachta.shoesorter.Decisions
-import com.michalplachta.shoesorter.Domain.{Junction, Container}
+import com.michalplachta.shoesorter.Domain.{Container, Junction}
 import com.michalplachta.shoesorter.Messages._
 import spray.can.Http
 import spray.httpx.SprayJsonSupport._
