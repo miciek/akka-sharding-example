@@ -21,10 +21,11 @@ object SortingDecider {
 }
 
 class SortingDecider extends Actor {
-  def receive: Receive = {
-    case WhereShouldIGo(junction, container) => {
-      val targetConveyor = Decisions.whereShouldContainerGo(junction, container)
-      sender ! Go(targetConveyor)
-    }
+  def receive = {
+    case WhereShouldIGo(junction, container) =>
+      val decision = Decisions.whereShouldContainerGo(junction, container)
+      sender ! Go(decision)
   }
 }
+
+

@@ -1,6 +1,6 @@
 package com.michalplachta.shoesorter.api
 
-import akka.actor.ActorSystem
+import akka.actor.{Props, ActorSystem}
 import akka.cluster.sharding.{ClusterSharding, ClusterShardingSettings}
 import com.michalplachta.shoesorter.SortingDecider
 import com.typesafe.config.ConfigFactory
@@ -18,5 +18,5 @@ object ShardedApp extends App {
   )
 
   val decidersGuardian = ClusterSharding(system).shardRegion(SortingDecider.shardName)
-  system.actorOf(RestInterface.props(decidersGuardian, config getInt "application.exposed-port"))
+  system.actorOf(Props(new RestInterface(decidersGuardian, config getInt "application.exposed-port")))
 }

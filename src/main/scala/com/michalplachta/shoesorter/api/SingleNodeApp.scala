@@ -8,6 +8,6 @@ object SingleNodeApp extends App {
   val config = ConfigFactory.load()
   implicit val system = ActorSystem(config getString "application.name")
 
-  val decidersGuardian = system.actorOf(Props[DecidersGuardian])
-  system.actorOf(RestInterface.props(decidersGuardian, config getInt "application.exposed-port"))
+  val decider = system.actorOf(Props(new DecidersGuardian))
+  system.actorOf(Props(new RestInterface(decider, 8080)))
 }
