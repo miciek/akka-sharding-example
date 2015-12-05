@@ -17,7 +17,7 @@ cat src/main/resources/URLs.txt | parallel -j 5 'ab -ql -n 2000 -c 1 -k {}' | gr
 
 This command uses:
 - `ab` - Apache HTTP server benchmarking tool
-- `parrallel` - GNU Parallel - The Command-Line Power Tool
+- `parallel` - GNU Parallel - The Command-Line Power Tool
 
 ### ShardedApp
 First build the application:
