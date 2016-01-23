@@ -8,6 +8,6 @@ object SingleNodeApp extends App {
   val config = ConfigFactory.load()
   implicit val system = ActorSystem(config getString "application.name")
 
-  val decider = system.actorOf(Props(new DecidersGuardian))
-  system.actorOf(Props(new RestInterface(decider, 8080)))
+  val decider = system.actorOf(Props[DecidersGuardian])
+  system.actorOf(Props(classOf[RestInterface], decider, 8080))
 }
