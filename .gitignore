@@ -11,3 +11,6 @@ log
 .cache
 journal
 snapshots
+.ensime
+.ensime_cache
+.projectile
