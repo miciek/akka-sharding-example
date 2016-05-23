@@ -3,7 +3,6 @@
 A simple implementation of akka sharding. This is a simulation of [Conveyor Sorting Subsystem](http://i.imgur.com/mctb4HC.gifv).
 
 This repository serves as a support for my live-coding talk. You can look at slides on [slideshare](http://www.slideshare.net/miciek/sane-sharding-with-akka-cluster-53948027). There is also a blog post that you can use as a guide to create your own version. Please visit [Scalability using Sharding from Akka Cluster](http://michalplachta.com/2016/01/23/scalability-using-sharding-from-akka-cluster/).
-You can also develop the application yourself using [this blog post](http://michalplachta.com/2016/01/23/scalability-using-sharding-from-akka-cluster/) as reference.
 
 ## Measuring requests per second
 You can test both applications on your local machine by using:
