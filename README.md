@@ -3,21 +3,25 @@
 A simple implementation of akka sharding. This is a simulation of [Conveyor Sorting Subsystem](http://i.imgur.com/mctb4HC.gifv).
 
 This repository serves as a support for my live-coding talk. You can look at slides on [slideshare](http://www.slideshare.net/miciek/sane-sharding-with-akka-cluster-53948027). There is also a blog post that you can use as a guide to create your own version. Please visit [Scalability using Sharding from Akka Cluster](http://michalplachta.com/2016/01/23/scalability-using-sharding-from-akka-cluster/).
+You can also develop the application yourself using [this blog post](http://michalplachta.com/2016/01/23/scalability-using-sharding-from-akka-cluster/) as reference.
 
-## Benchmarking
-You can test both applications on your local machine by using included `resources/URLs.txt` file and the following command:
+## Measuring requests per second
+You can test both applications on your local machine by using:
+
+- `ab` - Apache HTTP server benchmarking tool,
+- `parallel` - GNU Parallel - The Command-Line Power Tool,
+- `haproxy` - fast and reliable http reverse proxy and load balancer,
+- provided [URLs.txt](src/main/resources/URLs.txt) for single-noded app,
+- provided [shardedURLs.txt](src/main/resources/shardedURLs.txt) and [haproxy.conf](src/main/resources/haproxy.conf).
+
+Akka configuration is capped so that we can simulate different conditions on commodity laptop.
 
 ### SingleNodedApp
-
-Just run `SingleNodedApp` from your IDE and then:
+Just run `SingleNodedApp` from your IDE or `sbt runSingle` and then:
 
 ```
 cat src/main/resources/URLs.txt | parallel -j 5 'ab -ql -n 2000 -c 1 -k {}' | grep 'Requests per second'
 ```
-
-This command uses:
-- `ab` - Apache HTTP server benchmarking tool
-- `parallel` - GNU Parallel - The Command-Line Power Tool
 
 ### ShardedApp
 First build the application:
@@ -36,6 +40,9 @@ This will set up a round-robing load balancer with frontend on port `8000` and b
 ```
 cat src/main/resources/shardedURLs.txt | parallel -j 5 'ab -ql -n 2000 -c 1 -k {}' | grep 'Requests per second'
 ```
+
+### Analysing results
+To analyse results of `requests per second` measurements, please read [Scalability Testing section in this blog post](http://michalplachta.com/2016/01/23/scalability-using-sharding-from-akka-cluster/#scalability-testing).
 
 ## Notes
 - Please note that Akka's parallelism in this project is capped in order to test being low on resources. Look at both `application.conf` and `sharded.conf`.
