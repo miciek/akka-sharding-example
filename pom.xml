@@ -9,14 +9,13 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <scala.version>2.11.7</scala.version>
-        <akka.version>2.4.0</akka.version>
-        <akka.persistence-in-memory.version>0.1.1</akka.persistence-in-memory.version>
+        <scala.version>2.11.8</scala.version>
+        <akka.version>2.4.10</akka.version>
         <typesafe.config.version>1.2.1</typesafe.config.version>
         <spray.version>1.3.2</spray.version>
-        <logback.version>1.1.2</logback.version>
-        <junit.version>4.11</junit.version>
-        <scalatest.version>2.2.3</scalatest.version>
+        <logback.version>1.1.5</logback.version>
+        <junit.version>4.12</junit.version>
+        <scalatest.version>3.0.0</scalatest.version>
         <maven-scala-plugin.version>2.15.2</maven-scala-plugin.version>
         <maven-shade-plugin.version>2.3</maven-shade-plugin.version>
         <scalatest-maven-plugin.version>1.0</scalatest-maven-plugin.version>
@@ -38,11 +37,6 @@
         </dependency>
         <dependency>
             <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-persistence_2.11</artifactId>
-            <version>${akka.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.typesafe.akka</groupId>
             <artifactId>akka-cluster_2.11</artifactId>
             <version>${akka.version}</version>
         </dependency>
@@ -54,6 +48,11 @@
         <dependency>
             <groupId>com.typesafe.akka</groupId>
             <artifactId>akka-remote_2.11</artifactId>
+            <version>${akka.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-distributed-data-experimental_2.11</artifactId>
             <version>${akka.version}</version>
         </dependency>
         <dependency>
